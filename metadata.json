@@ -1,0 +1,6 @@
+{
+  "name": "Business and Productivity Hub",
+  "description": "Premium SaaS business management platform with custom frontend and Notion workspace architecture for tasks, projects, clients, invoices, income, expenses, time tracking, and proposals.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

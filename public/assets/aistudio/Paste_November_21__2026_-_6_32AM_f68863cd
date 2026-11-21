@@ -1,0 +1,1304 @@
+# MASTER DEVELOPMENT PROMPT
+# BUSINESS AND PRODUCTIVITY HUB
+## Premium SaaS Business Management Platform — Website Frontend + Notion Backend
+
+Act as a senior full-stack software engineer, SaaS product architect, UI/UX designer, database integration specialist, Notion API developer, and Vercel deployment engineer.
+
+Your task is to build a complete, professional, production-oriented business management website called:
+
+**BUSINESS AND PRODUCTIVITY HUB**
+
+This is not a basic landing page, a static dashboard mockup, or an ordinary Notion template.
+
+It is a premium business management platform with a custom website frontend. Customers will interact with the website, while their own Notion workspace will serve as the underlying data-management system.
+
+The website must be designed around the supplied dashboard screenshot. Use that screenshot as the primary visual design reference. Reproduce its overall layout, visual hierarchy, spacing, proportions, navigation style, card arrangement, chart presentation, and color theme, while adapting the content to the Business and Productivity Hub product.
+
+Build the actual application, not just a design concept.
+
+---
+
+# PART 1 — PRODUCT PURPOSE AND ARCHITECTURE
+
+## 1.1 What this product does
+
+Business and Productivity Hub helps freelancers, independent professionals, consultants, and small business owners manage their business operations from one central dashboard.
+
+The platform contains eight connected business management modules:
+
+1. Task Manager
+2. Project Manager
+3. Client Manager
+4. Invoice Manager
+5. Income Tracker
+6. Expense Tracker
+7. Time Tracker
+8. Proposal Tracker
+
+These eight modules already exist as databases in my Notion workspace.
+
+I have already created the databases, their existing properties, relations, views, and database templates. Do not recreate or replace the existing system.
+
+The website must eventually connect to these existing databases through the official Notion API.
+
+## 1.2 The customer experience
+
+The website is the primary interface customers will see and use.
+
+Customers should not need to work directly inside Notion during normal business operations.
+
+For example:
+
+- A customer opens the website.
+- They navigate to Client Manager.
+- They click Add Client.
+- They enter the client's details in the website form.
+- The website saves the information to their connected Notion Client Manager database.
+- The updated client information appears on the website.
+
+The same principle must apply to tasks, projects, invoices, income, expenses, time entries, and proposals.
+
+Notion should operate behind the scenes.
+
+## 1.3 Individual customer workspaces
+
+Every customer must connect their own Notion workspace.
+
+The application must never use my personal Notion workspace as the storage location for all customers' private business information.
+
+Each customer must have an independent Notion connection and independent database mapping.
+
+The application must support this architecture:
+
+CUSTOMER WEBSITE
+↓
+SECURE SERVER-SIDE APPLICATION
+↓
+CUSTOMER'S NOTION OAUTH CONNECTION
+↓
+CUSTOMER'S OWN NOTION DATABASES
+
+Never mix data belonging to different customers.
+
+Never expose one customer's Notion access token or business records to another customer.
+
+## 1.4 Important integration distinction
+
+Notion template duplication and Notion OAuth authorization are separate steps.
+
+The intended onboarding process is:
+
+1. Customer purchases the product through Whop.
+2. Customer receives access to the product and the published Notion template.
+3. Customer duplicates the Business and Productivity Hub template into their own Notion workspace.
+4. Customer authorizes the website's Notion integration to access the necessary duplicated pages.
+5. The application discovers the available databases.
+6. The customer confirms or completes database mapping.
+7. The website loads their business dashboard.
+
+Do not assume that OAuth automatically duplicates a Notion template.
+
+Build the application so that this onboarding process can be implemented properly.
+
+---
+
+# PART 2 — DESIGN REFERENCE AND VISUAL IDENTITY
+
+## 2.1 Main visual direction
+
+Use the supplied analytics dashboard screenshot as the primary design reference.
+
+I want the website to feel like a premium SaaS business analytics platform.
+
+It should have:
+
+- A fixed dark navy sidebar.
+- A clean white top navigation bar.
+- A very light lavender or blue-grey page background.
+- White dashboard cards.
+- Rounded card corners.
+- Subtle borders and shadows.
+- Purple primary action buttons.
+- Colorful charts.
+- Clean typography.
+- Professional icons.
+- Generous spacing.
+- A responsive layout.
+
+Do not create a generic admin dashboard.
+
+The design must feel like a real commercial software product.
+
+## 2.2 Color palette
+
+Use the following approximate palette based on the supplied reference image:
+
+- Sidebar navy: #1D2948
+- Primary purple: #7853E8
+- Light lavender background: #F4F5FC
+- White cards: #FFFFFF
+- Main text: #263247
+- Secondary text: #8A91A3
+- Teal accent: #39B5B6
+- Blue accent: #78A7E8
+- Amber accent: #E9AD58
+- Green positive indicator: #2DAA82
+- Light borders: #E7E9F1
+
+Purple should be the primary brand accent.
+
+Teal, blue, amber, and green should be used to distinguish different business metrics and chart series.
+
+Do not use a dark background for the entire dashboard. The main content area should remain light.
+
+## 2.3 Layout
+
+The desktop interface should follow this structure:
+
+LEFT SIDEBAR:
+- Brand icon and Business and Productivity Hub branding.
+- Dashboard.
+- Analytics.
+- Tasks.
+- Projects.
+- Clients.
+- Invoices.
+- Income.
+- Expenses.
+- Time Tracking.
+- Proposals.
+- Help / User Guide.
+- Settings.
+
+The sidebar should use compact icons and clean navigation labels.
+
+The active navigation item should have a purple background or highlight, similar to the screenshot.
+
+TOP NAVIGATION:
+- Current page title.
+- Search field.
+- Date range or reporting period selector.
+- Notifications icon.
+- User profile menu.
+
+MAIN CONTENT:
+- Page heading and short description.
+- Relevant filters and actions.
+- Dashboard cards and data visualizations.
+- Organized content panels.
+
+The desktop dashboard must use the available screen width efficiently, with consistent spacing and alignment.
+
+## 2.4 Mobile design
+
+The website must also work properly on mobile devices.
+
+On mobile:
+
+- Convert the desktop sidebar into a collapsible navigation drawer.
+- Keep the top navigation compact.
+- Stack KPI cards vertically or in a compact two-column layout.
+- Make tables horizontally scrollable where necessary.
+- Make forms easy to use on touchscreens.
+- Ensure charts resize properly.
+- Prevent horizontal overflow.
+- Keep buttons large enough to tap.
+
+The mobile experience must feel intentionally designed, not like a desktop website squeezed onto a phone.
+
+---
+
+# PART 3 — MAIN DASHBOARD
+
+Create a professional dashboard inspired by the supplied analytics screenshot.
+
+Dashboard heading:
+
+**Business Overview**
+
+Subtitle:
+
+Revenue, projects, clients, productivity, and business performance at a glance.
+
+Include a reporting period selector and a date filter.
+
+## 3.1 KPI summary cards
+
+Create four prominent summary cards across the top of the desktop dashboard.
+
+CARD 1 — TOTAL INCOME
+- Total recorded income.
+- Percentage change compared with the previous equivalent period, only when sufficient historical data exists.
+- Small trend visualization.
+- Purple or blue accent.
+
+CARD 2 — TOTAL EXPENSES
+- Total recorded expenses.
+- Comparison with the previous period when data exists.
+- Small trend visualization.
+- Teal accent.
+
+CARD 3 — NET PROFIT
+- Income minus expenses.
+- Percentage or amount change when valid historical data exists.
+- Green or purple accent.
+
+CARD 4 — OUTSTANDING INVOICES
+- Total unpaid invoice balance.
+- Number of unpaid invoices.
+- Overdue invoice count where available.
+- Amber accent.
+
+All KPI values must come from the connected Notion data.
+
+Do not hardcode example financial figures.
+
+Do not display fabricated growth percentages.
+
+If there is no connected Notion workspace, show clearly labelled demonstration data or an empty state. Never present demonstration data as real customer financial information.
+
+## 3.2 Revenue trend
+
+Create a large chart panel titled:
+
+**Revenue Trend**
+
+Display income over time.
+
+Include:
+- Monthly revenue.
+- Current period.
+- Previous period comparison when sufficient data exists.
+- Date range filtering.
+- Interactive tooltips.
+- Clear axis labels.
+- Responsive chart sizing.
+
+Use a smooth purple line with a subtle shaded area.
+
+## 3.3 Income and expense breakdown
+
+Create a panel titled:
+
+**Financial Breakdown**
+
+Display income and expenses by category, client, or source where the available database information supports it.
+
+Use a donut chart or pie chart with a clear legend.
+
+Do not invent categories that are not present in the connected data.
+
+## 3.4 Project performance
+
+Create a panel titled:
+
+**Project Overview**
+
+Display:
+- Total projects.
+- Projects not started.
+- Projects in progress.
+- Completed projects.
+- Project status distribution.
+
+Include a clean chart and a small project list.
+
+## 3.5 Task performance
+
+Create a panel titled:
+
+**Task Overview**
+
+Display:
+- Total tasks.
+- Pending tasks.
+- In-progress tasks.
+- Completed tasks.
+- Overdue tasks, where dates and statuses allow accurate calculation.
+
+## 3.6 Financial targets
+
+Create a panel titled:
+
+**Financial Performance**
+
+Display:
+- Income compared with a user-defined target.
+- Expenses.
+- Profit.
+- Progress bars.
+
+Allow customers to configure their own financial targets.
+
+Do not invent annual targets or business goals.
+
+## 3.7 Recent activity
+
+Create a panel titled:
+
+**Recent Activity**
+
+Display recent business records such as:
+- New clients.
+- New projects.
+- Tasks completed.
+- Invoices created.
+- Payments recorded.
+- Expenses added.
+- Proposals submitted.
+
+Use actual record timestamps when available.
+
+## 3.8 Quick actions
+
+Create a prominent quick actions area with buttons for:
+
+- Add Task.
+- Add Project.
+- Add Client.
+- Create Invoice.
+- Record Income.
+- Add Expense.
+- Log Time.
+- Create Proposal.
+
+Every button must open the correct form or workflow.
+
+---
+
+# PART 4 — THE EIGHT MANAGEMENT MODULES
+
+Every module must have its own professional page, navigation entry, list/table view, filters, search, create button, edit action, detail view, and empty state.
+
+Use the following existing Notion database structure as the source of truth.
+
+Do not invent new database schemas and silently assume they exist.
+
+Before implementing live integration, inspect the actual connected database properties and map the website fields to them.
+
+## 4.1 TASK MANAGER
+
+Purpose: Help users organize daily tasks and monitor completion.
+
+Features:
+- Task list.
+- Task status.
+- Priority.
+- Due date.
+- Related project.
+- Related client, when available.
+- Task search.
+- Status filters.
+- Priority filters.
+- Due-date filters.
+- Create task.
+- Edit task.
+- Delete task with confirmation.
+- Mark task complete.
+- Task detail view.
+
+Provide:
+- Table view.
+- Board view.
+- Calendar view if supported by available data.
+
+The existing Notion task database templates contain:
+
+1. Task Overview.
+2. Task Checklist.
+3. Time Planning.
+4. Resources & References.
+5. Completion Notes.
+
+Preserve these existing structures.
+
+## 4.2 PROJECT MANAGER
+
+Purpose: Manage projects, deliverables, milestones, tasks, clients, and project finances.
+
+Features:
+- Project overview.
+- Project status.
+- Start and end dates.
+- Project progress.
+- Related client.
+- Related tasks.
+- Related income.
+- Related expenses.
+- Project budget.
+- Project financial summary.
+- Search and filters.
+- Create project.
+- Edit project.
+- Project detail page.
+
+Provide:
+- Table view.
+- Board view.
+- Timeline view where supported.
+
+Existing Notion project templates contain:
+
+1. Project Overview.
+2. Project Scope & Deliverables.
+3. Milestones & Timeline.
+4. Tasks & Action Plan.
+5. Client Requirements.
+6. Resources & Project Files.
+7. Budget & Financial Planning.
+8. Project Challenges & Updates.
+9. Project Completion & Handover.
+
+Preserve the existing structure.
+
+IMPORTANT EXISTING FINANCIAL CALCULATIONS:
+
+The Projects database already contains:
+- Total Income rollup.
+- Total Expenses rollup.
+- Net Profit formula.
+
+Net Profit is calculated as:
+
+Total Income minus Total Expenses.
+
+Do not replace or break these existing calculations.
+
+Project-level financial summaries depend on related income and expense records.
+
+Clearly account for the fact that transactions not related to a project may not appear in that project's financial totals.
+
+## 4.3 CLIENT MANAGER
+
+Purpose: Store client information and manage business relationships.
+
+Features:
+- Client directory.
+- Client name.
+- Contact information where available.
+- Client status.
+- Related projects.
+- Related invoices.
+- Related proposals.
+- Communication records.
+- Client search.
+- Client filters.
+- Create client.
+- Edit client.
+- Client detail page.
+
+Existing Notion client templates contain:
+
+1. Client Overview.
+2. Client Requirements.
+3. Services Provided.
+4. Communication & Meetings.
+5. Agreements & Expectations.
+6. Client Documents & Resources.
+7. Client Relationship Notes.
+8. Client Review & Relationship Summary.
+
+Preserve these structures.
+
+## 4.4 INVOICE MANAGER
+
+Purpose: Create and monitor client invoices.
+
+Features:
+- Invoice list.
+- Invoice number.
+- Client.
+- Related project.
+- Invoice date.
+- Due date.
+- Amount.
+- Currency.
+- Payment status.
+- Outstanding balance.
+- Overdue indicators.
+- Search and filters.
+- Create invoice.
+- Edit invoice.
+- Invoice detail.
+- Print-friendly invoice layout.
+- Download or export invoice where feasible.
+
+Existing Notion invoice templates contain:
+
+1. Invoice Overview.
+2. Freelancer Information.
+3. Client Information.
+4. Project Information.
+5. Services & Itemized Charges.
+6. Invoice Summary.
+7. Payment Information.
+8. Payment Terms.
+9. Payment Record.
+10. Final Notes.
+
+Preserve these structures.
+
+Do not claim that an invoice has been paid unless the underlying payment information confirms it.
+
+## 4.5 INCOME TRACKER
+
+Purpose: Track business income and payments received.
+
+Features:
+- Income records.
+- Income date.
+- Client.
+- Description.
+- Amount.
+- Currency.
+- Payment method when available.
+- Related invoice.
+- Related project.
+- Recurring income information.
+- Search and filters.
+- Add income.
+- Edit income.
+- Income details.
+
+Existing Notion income templates contain:
+
+1. Income Overview.
+2. Client Information.
+3. Income Description.
+4. Income Breakdown.
+5. Payment Information.
+6. Recurring Income.
+7. Related Invoice.
+8. Income Verification.
+9. Financial Notes.
+10. Final Notes.
+
+Preserve these structures.
+
+## 4.6 EXPENSE TRACKER
+
+Purpose: Record and monitor business expenses.
+
+Features:
+- Expense records.
+- Expense date.
+- Vendor or supplier.
+- Expense category where available.
+- Description.
+- Amount.
+- Currency.
+- Payment information.
+- Related client or project.
+- Receipt information.
+- Recurring expense information.
+- Tax and deductibility information where available.
+- Search and filters.
+- Add expense.
+- Edit expense.
+- Expense details.
+
+Existing Notion expense templates contain:
+
+1. Expense Overview.
+2. Vendor / Supplier Information.
+3. Expense Details.
+4. Expense Breakdown.
+5. Payment Information.
+6. Related Client or Project.
+7. Receipt & Documentation.
+8. Tax & Deductibility.
+9. Recurring Expense.
+10. Final Notes.
+
+Preserve these structures.
+
+## 4.7 TIME TRACKER
+
+Purpose: Monitor working hours and time spent on client and project work.
+
+Features:
+- Time entries.
+- Work date.
+- Client.
+- Project.
+- Start time.
+- End time.
+- Duration.
+- Billable status where available.
+- Earnings breakdown where available.
+- Work description.
+- Search and filters.
+- Add time entry.
+- Edit time entry.
+
+Existing Notion time templates contain:
+
+1. Work Overview.
+2. Client & Project.
+3. Time Details.
+4. Earnings Breakdown.
+5. Work Completed.
+6. Resources & References.
+7. Work Notes.
+8. Review & Verification.
+9. Follow-up Actions.
+10. Final Summary.
+
+Preserve these structures.
+
+## 4.8 PROPOSAL TRACKER
+
+Purpose: Create and monitor business proposals.
+
+Features:
+- Proposal list.
+- Proposal title.
+- Client.
+- Related project.
+- Proposal status.
+- Submission date.
+- Follow-up date.
+- Proposed amount.
+- Currency.
+- Search and filters.
+- Create proposal.
+- Edit proposal.
+- Proposal details.
+- Follow-up tracking.
+
+Existing Notion proposal templates contain:
+
+1. Proposal Overview.
+2. Project Scope & Deliverables.
+3. Timeline & Milestones.
+4. Pricing & Payment Terms.
+5. Project Requirements.
+6. Terms & Conditions.
+7. Expected Results.
+8. Next Steps.
+9. Follow-up Notes.
+10. Final Approval.
+
+Preserve these structures.
+
+---
+
+# PART 5 — CONNECTIONS AND AUTOMATION BETWEEN MODULES
+
+The eight modules must work together.
+
+Where the existing Notion relations permit it, provide the following workflows:
+
+- A client can be connected to multiple projects.
+- A project can be connected to tasks.
+- A project can be connected to income records.
+- A project can be connected to expense records.
+- A client can be connected to invoices.
+- An invoice can be connected to payment or income information.
+- A proposal can be associated with a client and project.
+- Time entries can be associated with clients and projects.
+
+When a user creates or updates a record on the website, save the change to the correct Notion database.
+
+After a successful write:
+- Refresh the affected record.
+- Update relevant dashboard metrics.
+- Update related lists.
+- Show a success notification.
+
+If a write fails:
+- Show a clear error.
+- Preserve the user's form input.
+- Allow retry.
+- Do not show a false success message.
+
+Do not silently create duplicate records.
+
+Use appropriate loading, success, error, and empty states.
+
+---
+
+# PART 6 — FINANCIAL LOGIC AND CURRENCY HANDLING
+
+The system supports the following currencies in the existing financial properties:
+
+- USD
+- GBP
+- EUR
+- CAD
+- AUD
+- GHS
+- NGN
+- ZAR
+- INR
+- JPY
+- CHF
+
+IMPORTANT:
+
+Never blindly add transactions in different currencies.
+
+For example, adding GHS 1,000 to USD 500 without currency conversion is mathematically invalid as a business total.
+
+The application must:
+- Display each transaction's original currency.
+- Group financial totals by currency.
+- Only combine currencies when a valid exchange-rate conversion method is implemented and disclosed.
+- Avoid silently converting customer financial records.
+- Make the reporting currency clear.
+
+Preserve the existing Notion financial calculation:
+
+Net Profit = Total Income - Total Expenses.
+
+Where project relations and currencies permit accurate calculations, show the project profit.
+
+Do not claim that all business income or expenses are included in project totals if some transactions are not related to a project.
+
+---
+
+# PART 7 — NOTION API INTEGRATION
+
+This is one of the most important parts of the application.
+
+Build a proper Notion integration architecture.
+
+Use the official Notion API and current official API documentation.
+
+Official documentation:
+https://developers.notion.com/
+
+## 7.1 OAuth
+
+Implement Notion OAuth using a secure server-side authorization flow.
+
+Requirements:
+- Connect Notion button.
+- Authorization redirect.
+- OAuth callback route.
+- State validation.
+- Secure token exchange.
+- Token storage on the server.
+- Connection status.
+- Disconnect option.
+- Error handling.
+
+Never put a Notion secret or access token in browser code.
+
+Never expose access tokens through frontend environment variables.
+
+## 7.2 Discover customer databases
+
+After a customer connects Notion:
+
+- Retrieve the pages and databases accessible to the integration.
+- Identify the eight expected management databases.
+- Retrieve their database and data-source information.
+- Inspect their actual property names and types.
+- Map each database to the correct website module.
+- Store the mapping securely for that customer.
+
+Expected database names:
+
+1. Task Manager.
+2. Project Manager.
+3. Client Manager.
+4. Invoice Manager.
+5. Income Tracker.
+6. Expense Tracker.
+7. Time Tracker.
+8. Proposal Tracker.
+
+Do not rely exclusively on database names. Customers may rename their databases.
+
+Provide a database mapping screen so the customer can confirm the correct database for each module.
+
+If a database is missing, explain what is missing and how the customer can grant access.
+
+## 7.3 API version and data sources
+
+Use the current supported Notion API version.
+
+Respect the current API distinction between databases and data sources.
+
+Retrieve a database's data-source IDs before querying its records.
+
+Do not mistakenly use a database ID where a data-source ID is required.
+
+Use the correct endpoints for:
+- Retrieving databases.
+- Retrieving data sources.
+- Querying data sources.
+- Retrieving pages.
+- Creating pages.
+- Updating pages.
+- Retrieving block content.
+- Updating block content when supported.
+
+Handle pagination.
+
+Handle API rate limits and retry responses appropriately.
+
+Do not assume every Notion property type can be read or written in exactly the same way.
+
+## 7.4 Property mapping
+
+Create a reusable mapping layer.
+
+The application must inspect the real Notion property schema and map it to website fields.
+
+Support relevant property types such as:
+- Title.
+- Rich text.
+- Number.
+- Select.
+- Status.
+- Multi-select.
+- Date.
+- Checkbox.
+- URL.
+- Email.
+- Phone number.
+- Relation.
+- Rollup.
+- Formula.
+- Created time.
+- Last edited time.
+
+Only write to properties supported by the API.
+
+Treat formula and rollup fields as calculated/read-only values where appropriate.
+
+Do not overwrite calculated properties with manually entered values.
+
+## 7.5 Integration isolation
+
+Each customer connection must be isolated.
+
+Use a secure server-side customer connection record that associates:
+- Customer identity.
+- Notion workspace information.
+- OAuth token.
+- Authorized page information.
+- Database IDs.
+- Data-source IDs.
+- Module mapping.
+- Connection status.
+
+Do not use one shared Notion access token for all customers.
+
+Do not save customer tokens in localStorage, sessionStorage, browser cookies accessible to JavaScript, or frontend source files.
+
+Use secure session handling and appropriate encryption for stored tokens.
+
+---
+
+# PART 8 — AUTHENTICATION AND CUSTOMER ACCESS
+
+Prepare the application for commercial distribution through Whop.
+
+The product is intended to be sold under the name:
+
+**Business and Productivity Hub**
+
+The eventual customer journey should be:
+
+1. Customer visits the product listing on Whop.
+2. Customer purchases the product.
+3. Customer receives access to the website and setup instructions.
+4. Customer creates or accesses their website account.
+5. Customer duplicates the Notion template.
+6. Customer connects their Notion workspace.
+7. Customer completes database mapping.
+8. Customer accesses their personal business dashboard.
+
+Do not pretend Whop payment verification is complete unless a real Whop integration has been implemented.
+
+Prepare a secure access-control layer that can later verify Whop purchase entitlement through a supported integration or server-side verification process.
+
+Do not rely only on a hidden URL or a frontend boolean to protect paid features.
+
+For the initial development stage, use a clearly labelled development/demo mode so the frontend can be built and tested without real customer accounts.
+
+---
+
+# PART 9 — CUSTOMER USER GUIDE
+
+The existing Notion product includes a Customer User Guide.
+
+Make a Help / User Guide area available from the website.
+
+Include practical instructions for:
+- Connecting Notion.
+- Duplicating the template.
+- Mapping databases.
+- Creating tasks.
+- Managing projects.
+- Managing clients.
+- Creating invoices.
+- Recording income.
+- Recording expenses.
+- Tracking time.
+- Managing proposals.
+- Understanding financial reports.
+- Handling multiple currencies.
+- Troubleshooting connection issues.
+
+Keep the instructions clear and beginner-friendly.
+
+Do not delete or replace the original Notion Customer User Guide.
+
+---
+
+# PART 10 — SEARCH, FILTERS, EXPORTS, AND USER EXPERIENCE
+
+Add a global search field where practical.
+
+Allow users to search relevant business records.
+
+Provide useful filters:
+- Date.
+- Status.
+- Client.
+- Project.
+- Currency.
+- Priority.
+- Payment status.
+
+Include sorting and pagination for large tables.
+
+Where appropriate, support:
+- CSV export.
+- Print-friendly reports.
+- Invoice printing.
+- Downloadable reports.
+
+Only export information the customer is authorized to access.
+
+Provide:
+- Loading skeletons.
+- Empty states.
+- Error messages.
+- Confirmation dialogs.
+- Toast notifications.
+- Form validation.
+- Accessible labels.
+- Keyboard navigation.
+
+Do not create decorative buttons that do nothing.
+
+Every visible action must either work or be clearly marked as unavailable or planned.
+
+---
+
+# PART 11 — SETTINGS
+
+Create a professional Settings area.
+
+Include:
+
+PROFILE:
+- Name.
+- Email.
+- Profile image if supported.
+
+BUSINESS SETTINGS:
+- Business name.
+- Business details.
+- Default currency preference.
+- Reporting preferences.
+
+NOTION CONNECTION:
+- Connection status.
+- Connected workspace information.
+- Database mapping.
+- Reconnect.
+- Disconnect.
+
+PREFERENCES:
+- Theme preference.
+- Date format.
+- Dashboard preferences.
+
+ACCOUNT:
+- Sign out.
+- Account management.
+
+Never expose sensitive connection details.
+
+---
+
+# PART 12 — TECHNICAL STACK
+
+Build a maintainable, Vercel-compatible full-stack web application.
+
+Preferred stack:
+
+- TypeScript.
+- React.
+- Next.js App Router where supported by the build environment.
+- Tailwind CSS.
+- Reusable component architecture.
+- Lucide icons.
+- Recharts for charts.
+- Server-side API routes or server functions.
+- Official Notion API.
+- Secure server-side session and token handling.
+
+If the current Google AI Studio project scaffold does not support Next.js directly, use a compatible React application with Node.js server endpoints that can be deployed to Vercel.
+
+Do not introduce unnecessary backend services.
+
+Keep the architecture simple, modular, and easy to maintain.
+
+Use a structure similar to:
+
+app/
+  dashboard/
+  analytics/
+  tasks/
+  projects/
+  clients/
+  invoices/
+  income/
+  expenses/
+  time-tracking/
+  proposals/
+  settings/
+  api/
+    notion/
+      connect/
+      callback/
+      databases/
+      records/
+
+components/
+  layout/
+  navigation/
+  dashboard/
+  charts/
+  tables/
+  forms/
+  ui/
+
+lib/
+  notion/
+  auth/
+  database/
+  mappings/
+  calculations/
+  validation/
+
+types/
+  notion.ts
+  business.ts
+  dashboard.ts
+
+This is a suggested organization. Adapt it to the actual framework while keeping the separation of concerns.
+
+---
+
+# PART 13 — VERCEL DEPLOYMENT REQUIREMENTS
+
+The finished project must be suitable for deployment on Vercel.
+
+Do not build it in a way that only works inside Google AI Studio.
+
+Requirements:
+
+- Compatible build scripts.
+- Correct production dependencies.
+- Server-side API routes compatible with Vercel Functions.
+- No reliance on a permanently running local server.
+- No local filesystem database for persistent customer data.
+- No hardcoded secrets.
+- No credentials committed to GitHub.
+- Proper environment-variable handling.
+- Production-ready error handling.
+- Secure callback URLs.
+- Correct redirect configuration.
+- Responsive frontend.
+- No unnecessary dependencies.
+
+Use environment variables for server-side configuration.
+
+Potential variables include:
+
+NOTION_CLIENT_ID
+NOTION_CLIENT_SECRET
+NOTION_REDIRECT_URI
+APP_BASE_URL
+SESSION_SECRET
+TOKEN_ENCRYPTION_KEY
+
+Only add variables that the implemented architecture actually needs.
+
+Never put private secrets in variables prefixed with NEXT_PUBLIC_.
+
+Do not fabricate credentials or pretend that OAuth is configured before real credentials have been supplied.
+
+Prepare an .env.example file containing variable names and safe placeholder descriptions only.
+
+Include a README explaining:
+- How to install dependencies.
+- How to run the project locally.
+- How to configure Notion OAuth.
+- How to configure Vercel environment variables.
+- How to deploy to Vercel.
+- How to test the integration.
+- How to configure the Whop integration later.
+
+The deployment must be testable using Vercel preview deployments before production release.
+
+---
+
+# PART 14 — DEVELOPMENT PHASES
+
+Build this project in clearly separated phases.
+
+Do not attempt to fake a complete production integration in one step.
+
+PHASE 1 — FRONTEND FOUNDATION
+
+Build:
+- Sidebar.
+- Top navigation.
+- Dashboard.
+- KPI cards.
+- Charts.
+- All eight module pages.
+- Forms.
+- Tables.
+- Settings.
+- Help area.
+- Responsive layouts.
+
+Use clearly labelled sample data only for development previews.
+
+The UI must be fully navigable.
+
+PHASE 2 — DATA ARCHITECTURE
+
+Create:
+- Business data types.
+- Notion property mapping layer.
+- Database adapter interface.
+- Financial calculation utilities.
+- Data validation.
+- Error handling.
+
+Keep the UI independent of the Notion API implementation.
+
+PHASE 3 — NOTION INTEGRATION
+
+Implement:
+- OAuth.
+- Callback handling.
+- Secure token storage.
+- Database discovery.
+- Data-source discovery.
+- Database mapping.
+- Record retrieval.
+- Record creation.
+- Record updates.
+- Relation handling.
+- Pagination.
+- Rate-limit handling.
+
+PHASE 4 — AUTOMATION
+
+Connect all dashboard metrics to real data.
+
+Make all module actions save to Notion.
+
+Make the relevant dashboard panels refresh after data changes.
+
+Implement accurate financial calculations.
+
+PHASE 5 — COMMERCIAL ACCESS
+
+Prepare:
+- Customer authentication.
+- Whop entitlement verification.
+- Customer onboarding.
+- Notion connection instructions.
+- Customer-specific data isolation.
+
+PHASE 6 — TESTING AND DEPLOYMENT
+
+Test:
+- Desktop layout.
+- Mobile layout.
+- Navigation.
+- Forms.
+- Tables.
+- Charts.
+- OAuth.
+- Database mapping.
+- Create and update operations.
+- Customer isolation.
+- Currency handling.
+- Vercel production build.
+
+Do not claim that an integration has been tested when it has only been mocked.
+
+---
+
+# PART 15 — IMPORTANT RULES
+
+These instructions are mandatory.
+
+1. Do not create a generic dashboard.
+2. Use the supplied screenshot as the visual reference.
+3. Do not replace the eight existing Notion databases.
+4. Do not silently invent database properties.
+5. Do not hardcode customer financial data.
+6. Do not use one customer's Notion connection for another customer.
+7. Do not expose Notion secrets in frontend code.
+8. Do not pretend OAuth or Whop integration is complete without real configuration.
+9. Do not claim that Notion template duplication happens automatically through OAuth.
+10. Do not display fabricated analytics as real business performance.
+11. Do not sum different currencies without a valid conversion method.
+12. Do not create buttons that do nothing.
+13. Do not break the existing financial relations and calculations.
+14. Do not use a local-only database as the permanent storage solution.
+15. Do not build a website that cannot be deployed to Vercel.
+16. Do not remove features simply because they are more difficult to implement.
+17. Do not sacrifice usability for visual appearance.
+18. Keep the code modular and readable.
+19. Verify the application after making major changes.
+20. Preserve existing working code when refining the application.
+
+If a requirement cannot be implemented because a credential, permission, database property, or external configuration is missing, explain exactly what is missing. Do not pretend it works.
+
+---
+
+# PART 16 — FINAL EXPECTED RESULT
+
+The finished product should look and feel like a premium SaaS business management platform.
+
+The customer should open the website and immediately see a polished business dashboard.
+
+They should be able to navigate through all eight management modules.
+
+They should be able to create and manage business records through the website.
+
+Their data should be stored in their own connected Notion workspace.
+
+Their dashboard should reflect their actual business data.
+
+Their financial figures should be calculated accurately.
+
+Their information must remain private and isolated from other customers.
+
+The application should be ready for Vercel deployment.
+
+The architecture should support selling the complete product through Whop.
+
+The overall visual design must closely follow the supplied reference screenshot, adapted to the Business and Productivity Hub identity.
+
+**Start by building Phase 1: the complete visual frontend and navigable application structure.**
+
+After Phase 1 is complete, explain what has been built, identify any missing features, and wait for further instructions before moving to the next major integration phase.
+
+Do not stop after producing a static dashboard mockup. Build the actual navigable application with reusable components, working UI interactions, forms, tables, charts, and realistic development-mode behavior.
